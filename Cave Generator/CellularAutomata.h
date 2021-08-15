@@ -6,7 +6,6 @@
 
 // TODO
 /*
-Smoothing function, goes over all the tiles and changes them into the most common surrounding tile
 */
 
 class CellularAutomata

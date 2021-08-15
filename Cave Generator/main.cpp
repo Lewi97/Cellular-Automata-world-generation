@@ -52,7 +52,7 @@ void colorquad(int x, int y, sf::Color col)
 		quads[(x + simWidth * y) * 4 + i].color = col;
 }
 
-sf::Color determineColor(char n)
+sf::Color determineColorIsland(char n)
 {
 	switch (n)
 	{
@@ -74,7 +74,13 @@ void colorGrid(const std::vector<char>& world, bool caves = true)
 			colorquad(i, ((bool)world.at(i) ? sf::Color::Black : sf::Color::White));
 	else
 		for (int i = 0; i < simWidth * simHeight; i++)
-			colorquad(i, determineColor(world.at(i)));
+			colorquad(i, determineColorIsland(world[i]));
+}
+
+void drawGrid(const std::vector<char>& world)
+{
+	for (int i = 0; i < simWidth * simHeight; i++)
+		colorquad(i, ((bool)world.at(i) ? sf::Color::Black : sf::Color::White));
 }
 
 void writeConfigToConsole(short iterateCount, short wallDensity, short neighboursRequired, bool caves)
@@ -110,13 +116,15 @@ int main()
 
 	std::vector<char>* mapholder = CA->getWorld();
 	CA->createworld(wallDensity);
-	colorGrid(*mapholder);
+	drawGrid(*mapholder);
 
 	writeConfigToConsole(iterateCount, wallDensity, neighboursRequired, generateCaves);
 
 	while (window.isOpen()) {
 		// get delta time
 		//delta = dt.restart().asSeconds();
+
+		// TODO: turn more stuff into functions
 
 		while (window.pollEvent(event))
 		{
@@ -127,7 +135,7 @@ int main()
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 				{
 					CA->iterateworld(neighboursRequired);
-					colorGrid(*mapholder);
+					drawGrid(*mapholder);
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 				{
@@ -137,7 +145,7 @@ int main()
 						CA->iterateworld(neighboursRequired);
 
 					CA->removeSinglePixels();
-					colorGrid(*mapholder);
+					drawGrid(*mapholder);
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 					++iterateCount;
@@ -146,12 +154,12 @@ int main()
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
 				{
 					CA->createworld(wallDensity, 250U);
-					colorGrid(*mapholder);
+					drawGrid(*mapholder);
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 				{
 					CA->smoothWorld();
-					colorGrid(*mapholder);
+					drawGrid(*mapholder);
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
 				{
@@ -164,7 +172,7 @@ int main()
 
 					mapholder = CA->getWorld();
 					CA->createworld(wallDensity);
-					colorGrid(*mapholder);
+					drawGrid(*mapholder);
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Comma))
 					wallDensity--;
@@ -176,7 +184,6 @@ int main()
 					neighboursRequired--;
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 				{
-					// deco.decorate(mapholder);
 					CA->decorator();
 					colorGrid(*mapholder, generateCaves);
 				}
