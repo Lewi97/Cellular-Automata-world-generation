@@ -49,22 +49,6 @@ int CellularAutomata::mostCommonNeighbour(int x, int y)
 	return n == 4 ? world[toID(x,y)] : n > 4 ? 1 : 0;
 }
 
-int CellularAutomata::getneighbours(int x, int y)
-{
-	int n = 0;
-
-	for (int i = -1; i < 2; i++)
-		for (int j = -1; j < 2; j++)
-		{
-
-			if (i == 0 && j == 0) continue;
-			if (x + i > this->width - 1 || y + j > this->height - 1 || y + j < 0 || x + i < 0) { n++; continue; }
-			n += world[toID(x + i, y + j)];
-		}
-
-	return n;
-}
-
 CellularAutomata::CellularAutomata(int width, int height) :
 	width(width), height(height)
 {
@@ -96,7 +80,7 @@ void CellularAutomata::removeSinglePixels()
 	finalizeworld();
 }
 
-void CellularAutomata::iterateworld(int n)
+void CellularAutomata::applyRules(int n)
 {
 	for (int x = 0; x < width; x++)
 		for (int y = 0; y < height; y++)

@@ -134,7 +134,7 @@ int main()
 			case sf::Event::KeyPressed:
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 				{
-					CA->iterateworld(neighboursRequired);
+					CA->applyRules(neighboursRequired);
 					drawGrid(*mapholder);
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
@@ -142,7 +142,7 @@ int main()
 					CA->createworld(wallDensity);
 
 					for (int i = 0; i < iterateCount; i++)
-						CA->iterateworld(neighboursRequired);
+						CA->applyRules(neighboursRequired);
 
 					CA->removeSinglePixels();
 					drawGrid(*mapholder);

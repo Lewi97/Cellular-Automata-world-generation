@@ -31,7 +31,7 @@ protected:
 									  
 	// virtual functions
 	// tools
-	virtual int getneighbours(int x, int y); // grabs a cells neighbours
+	virtual int getneighbours(int x, int y) = 0; // grabs a cells neighbours
 
 public:
 	// Constructor
@@ -43,7 +43,7 @@ public:
 	void createworld(short walldensity = 45, unsigned seed = 0); // creates a randomized grid of cells with a fill parameter
 	
 	// virtual functions
-	void iterateworld(int n); // iterates the world
+	void applyRules(int n); // iterates the world
 
 	// Decorator
 	virtual void decorator(); // Decorates the cells with more detail
